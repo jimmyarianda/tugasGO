@@ -1,0 +1,45 @@
+{{ define "Index" }}
+{{ template "Header" }}
+<div class="container">
+  <h2>DATA TUGAS PEGAWAI</h2>
+  <br>
+  <p>
+      <a href="/new" class="btn btn-primary">Tambah Data Baru</a>
+  </p>
+  <table id="tabledata" class="display" style="width: 100%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Task</th>
+        <th>Assignee</th>
+        <th>Deadline</th>
+        <th></th>        
+      </tr>
+    </thead>
+    <tbody>
+      {{ range . }}
+      <tr>
+        <td>{{ .Id }}</td>
+        <td> {{ .Task }}  </td>
+        <td>{{ .Assignee }} </td>
+        <td>{{ .Deadline }} </td>
+        <td>
+          <form method="post" action="/updateStatus">
+            <input type="hidden" name="id_pegawai" value="{{ .Id }}">
+            {{ if eq .Status "True" }}
+            <input type="submit" value="Done" class="btn btn-success">
+            {{ else }}
+            <input type="submit" value="Mark as Done" class="btn btn-success">
+            {{ end }}
+          </form>
+          <a href="/edit?id={{ .Id }}" class="btn btn-primary">Edit</a>
+          <a href="/delete?id={{ .Id }}" class="btn btn-danger">Delete</a>
+        </td>
+      </tr>
+      {{ end }}
+    </tbody>
+
+  </table>
+</div>
+{{ template "Footer" }}
+{{ end }}
